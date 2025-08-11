@@ -1,4 +1,4 @@
-
+<img width="1367" height="737" alt="image" src="https://github.com/user-attachments/assets/4da215c2-ab9a-46dd-b307-a4ce598ffd58" />
 ```
 # n8n: Latest AI News + Job Digest (Simple Workflow)
 
@@ -208,5 +208,5 @@ also job opening in 24 hours latest uploaded on any job platfrom for "Devops int
 
 
 Do you want me to also create a **JSON export** of this exact three-node n8n workflow so it’s instantly importable? That would make it a complete repo package.
-<img width="1367" height="737" alt="image" src="https://github.com/user-attachments/assets/4da215c2-ab9a-46dd-b307-a4ce598ffd58" />
+
 
