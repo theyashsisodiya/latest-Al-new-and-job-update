@@ -1,0 +1,127 @@
+{
+  "name": "latest AI and job",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4937ce3c-5c0f-42f6-8918-5b94521de005",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "model": "sonar-pro",
+        "messages": {
+          "message": [
+            {
+              "content": "You are a cutting-edge AI news researcher and job data collector.\n\nEvery time you run, you must:\n\n1. Search for and retrieve the most recent developments in Artificial Intelligence published within the last 24 hours.\n2. Find 2–3 latest job openings in India posted within the last 24 hours for:\n   - DevOps Intern\n   - AI Automation Intern\n3. Job listings must:\n   - Be from ONLY LinkedIn, Internshala, Naukri, or Indeed.\n   - Have a direct application link that is valid (HTTP status 200).\n   - Exclude expired, inaccessible, or broken links.\n4. Ensure all data is accurate, fresh, and from trusted sources.\n\nFor each AI news item:\n- Include the full headline.\n- Provide a one-sentence summary explaining the development.\n- Include the full URL (no shortened links or footnote markers).\n\nFor each job listing:\n- Include Job Title\n- Company Name\n- Location (mention “Remote” or “Hybrid” if applicable)\n- Posting Platform & Time Posted\n- Direct Application Link (full URL)\n- Include a field “Status” with either VALID or INVALID based on link accessibility.\n\n**IMPORTANT OUTPUT REQUIREMENTS:**\n- Only include jobs with Status = VALID in the final HTML output.\n- Return the response as a single self-contained HTML document with inline CSS styling, suitable for sending as an email.\n- Use clear section headings and table layouts for jobs.\n- Style headlines in bold, summaries in normal text, and links as clickable.\n- Use a light background color for the email body and card-style boxes for each news item.\n\n**HTML Output Structure:**\n<html>\n  <head>\n    <style>\n      body { font-family: Arial, sans-serif; background-color: #f8f9fa; padding: 20px; }\n      h2 { color: #2c3e50; }\n      .news-item, .job-table { background: #fff; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }\n      .news-item h3 { margin-top: 0; color: #007bff; }\n      .news-item p { margin: 5px 0; }\n      table { width: 100%; border-collapse: collapse; }\n      th, td { border: 1px solid #ddd; padding: 8px; }\n      th { background-color: #007bff; color: white; }\n      a { color: #007bff; text-decoration: none; }\n      a:hover { text-decoration: underline; }\n    </style>\n  </head>\n  <body>\n    <h2>🧠 Latest AI News (Past 24 Hours)</h2>\n    <!-- Repeat this block for each news item -->\n    <div class=\"news-item\">\n      <h3>Headline</h3>\n      <p><strong>Summary:</strong> One sentence summary here.</p>\n      <p><a href=\"FULL_URL\">Read more</a></p>\n    </div>\n\n    <h2>💼 DevOps Intern Jobs (India | Last 24 Hours)</h2>\n    <table class=\"job-table\">\n      <tr>\n        <th>Job Title</th>\n        <th>Company</th>\n        <th>Location</th>\n        <th>Platform & Time</th>\n        <th>Application Link</th>\n      </tr>\n      <!-- Repeat for each VALID DevOps job -->\n      <tr>\n        <td>Job Title</td>\n        <td>Company Name</td>\n        <td>Location</td>\n        <td>Platform · Time</td>\n        <td><a href=\"FULL_URL\">Apply Here</a></td>\n      </tr>\n    </table>\n\n    <h2>🤖 AI Automation Intern Jobs (India | Last 24 Hours)</h2>\n    <table class=\"job-table\">\n      <tr>\n        <th>Job Title</th>\n        <th>Company</th>\n        <th>Location</th>\n        <th>Platform & Time</th>\n        <th>Application Link</th>\n      </tr>\n      <!-- Repeat for each VALID AI Automation job -->\n      <tr>\n        <td>Job Title</td>\n        <td>Company Name</td>\n        <td>Location</td>\n        <td>Platform · Time</td>\n        <td><a href=\"FULL_URL\">Apply Here</a></td>\n      </tr>\n    </table>\n  </body>\n</html>\n",
+              "role": "system"
+            },
+            {
+              "content": "Retrieve only the most recent information published within the last 24 hours:\n\n1. AI Developments\n\nInclude major headlines about artificial intelligence, focusing on new model launches, significant market news, or breakthrough research.\n\nProvide the exact headline, a one-sentence summary, and the full direct URL (no shortened links).\n\n2. Job Openings in India\n\nSearch only LinkedIn, Internshala, Naukri.com, and Indeed.com.\n\nFind 2–3 latest postings (uploaded within the last 1 week) for:\n\n\"DevOps Intern\"\n\n\"AI Automation Intern\"\n\nFor each job:\n\nJob Title\n\nCompany Name\n\nLocation (mention \"Remote\" or \"Hybrid\" if applicable)\n\nPlatform Name and Time Posted\n\nFull direct application link\n\nMost important step Exclude any job postings that are expired, inaccessible, or return errors (404/410/redirect to generic job search). if you found this do not list job\n\nOutput:\nPresent the results as clean, structured HTML with two sections: \"Latest AI Developments\" and \"Latest Job Openings in India,\" each formatted as bullet points or tables, ensuring all links are clickable and valid."
+            }
+          ]
+        },
+        "options": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.perplexity",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "5e25c6c5-52b0-4b60-8943-8f2f55b5c97e",
+      "name": "Message a model",
+      "credentials": {
+        "perplexityApi": {
+          "id": "jfeGy5zFESdZPlAv",
+          "name": "Perplexity account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "THEYASHSISODIYA@GMAIL.COM",
+        "subject": "AI new upadate in last 24hr with job updates",
+        "message": "={{ $json.choices[0].message.content }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        400,
+        0
+      ],
+      "id": "d880bdc3-49dc-415a-9981-088630b7b192",
+      "name": "Send a message",
+      "webhookId": "0fc2738d-e211-48ef-aaf9-e354a4f330ee",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "BsbPVFtRkFjWyGic",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1fe99331-f549-4ab7-8c87-cba7c0c123e7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fca4fa0e5ae247e39cd954acbd193c81c66eeb044912b56566983f18237c0bf6"
+  },
+  "id": "8GA7KzvRPGVtS8TU",
+  "tags": [
+    {
+      "createdAt": "2025-08-09T10:48:44.977Z",
+      "updatedAt": "2025-08-09T10:48:44.977Z",
+      "id": "0TfqfF9IAa6btrx7",
+      "name": "Latest AI news and job"
+    }
+  ]
+}
